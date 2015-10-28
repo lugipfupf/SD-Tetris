@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import javax.swing.Box;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  * The class GUI implements the graphical user interface of the Tetris game.
@@ -40,7 +39,7 @@ public class GUI extends JFrame implements KeyListener {
 		// initialize
 		super("Tetris");
 		setLayout(new BorderLayout(20, 20));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.BLACK);
 		addKeyListener(this);
 
