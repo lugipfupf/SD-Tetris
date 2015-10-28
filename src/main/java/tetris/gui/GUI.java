@@ -1,5 +1,7 @@
 package tetris.gui;
 
+import tetris.figure.Block;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyEvent;

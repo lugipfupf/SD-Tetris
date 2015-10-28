@@ -1,5 +1,7 @@
 package tetris.gui;
 
+import tetris.figure.Figure;
+
 /**
  * Created by highway on 27/10/15.
  */
@@ -39,6 +41,7 @@ public class Game {
                     break;
                 case ROTATE:
                     System.out.println("ROTATE");
+                    currentFig.rotate();
                     break;
             }
 
