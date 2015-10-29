@@ -2,6 +2,8 @@ package tetris.gui;
 
 import tetris.figure.Figure;
 
+import java.util.Random;
+
 /**
  * Created by highway on 27/10/15.
  */
@@ -50,6 +52,6 @@ public class Game {
     }
 
     private Figure getNewBlock() {
-        return new Figure(0, 0);
+        return Figure.getFigure(0, 0);
     }
 }

@@ -2,29 +2,55 @@ package tetris.figure;
 
 import tetris.gui.Tetris;
 
+import java.util.Random;
+
 /**
- * Created by highway on 27/10/15.
+ * Created by highway on 28/10/15.
  */
-public class Figure {
+public abstract class Figure {
+    protected Block[] blocks;
+    protected int color;
+    protected int x, y;
 
-    private Block[] blocks;
-    private int color;
-    private int x, y;
+    private static Random r = new Random();
 
-    private FigureOrientation orientation = FigureOrientation.EAST;
-
+    private FigureOrientation orientation = FigureOrientation.NORTH;
 
     public Figure(int x, int y) {
         blocks = new Block[Tetris.MAX_BLOCKS];
 
         this.x = x;
         this.y = y;
-        color = 1;
+    }
 
-        blocks[0] = new Block(Tetris.START_POINT_X, Tetris.HEIGHT - 2, color);
-        blocks[1] = new Block(Tetris.START_POINT_X, Tetris.HEIGHT - 3, color);
-        blocks[2] = new Block(Tetris.START_POINT_X, Tetris.HEIGHT - 4, color);
-        blocks[3] = new Block(Tetris.START_POINT_X + 1, Tetris.HEIGHT - 3, color);
+    public static Figure getFigure(int x, int y) {
+        Figure f;
+
+        switch (r.nextInt(7)) {
+            case 0:
+                f = new FigT(x, y);
+                break;
+            case 1:
+                f = new FigCube(x, y);
+                break;
+            case 2:
+                f = new FigI(x, y);
+                break;
+            case 3:
+                f = new FigLLeft(x, y);
+                break;
+            case 4:
+                f = new FigLRight(x, y);
+                break;
+            case 5:
+                f = new FigZLeft(x, y);
+                break;
+            default:
+                f = new FigZRight(x, y);
+                break;
+        }
+
+        return f;
     }
 
     public void move(int dx, int dy) {
@@ -34,48 +60,6 @@ public class Figure {
         }
     }
 
-    public void rotate() {
-        switch (orientation) {
-            case NORTH:
-                blocks[0].x = blocks[0].x - 1;
-
-                blocks[1].x = blocks[1].x - 2;
-
-                blocks[2].y = blocks[2].y - 1;
-
-                orientation = FigureOrientation.EAST;
-                break;
-            case EAST:
-                blocks[1].x = blocks[1].x + 1;
-                blocks[1].y = blocks[1].y + 1;
-
-                blocks[2].x = blocks[2].x + 2;
-                blocks[2].y = blocks[2].y + 2;
-
-                orientation = FigureOrientation.SOUTH;
-                break;
-            case SOUTH:
-                blocks[0].x = blocks[0].x + 2;
-                blocks[0].y = blocks[0].y - 2;
-
-                blocks[1].x = blocks[1].x + 1;
-                blocks[1].y = blocks[1].y - 1;
-
-                orientation = FigureOrientation.WEST;
-                break;
-            case WEST:
-                blocks[0].x = blocks[0].x - 1;
-                blocks[0].y = blocks[0].y + 2;
-
-                blocks[2].x = blocks[2].x - 2;
-                blocks[2].y = blocks[2].y - 1;
-
-                orientation = FigureOrientation.NORTH;
-                break;
-        }
-
-    }
-
     public Block[] getBlocks() {
         return blocks;
     }
@@ -83,4 +67,7 @@ public class Figure {
     public int getColor() {
         return color;
     }
+
+    public abstract void rotate();
+
 }
