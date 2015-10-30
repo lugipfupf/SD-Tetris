@@ -49,8 +49,6 @@ public abstract class Figure {
                 break;
         }
 
-        f = new S(x, y);
-
         return f;
     }
 

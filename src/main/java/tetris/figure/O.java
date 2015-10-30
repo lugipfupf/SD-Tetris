@@ -20,6 +20,6 @@ public class O extends Figure {
 
     @Override
     public void rotate() {
-
+        // no rotation needed
     }
 }

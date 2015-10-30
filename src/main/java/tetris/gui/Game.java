@@ -27,22 +27,17 @@ public class Game {
 
             switch (event) {
                 case DROP:
-                    System.out.println("DROP");
                     break;
                 case MOVE_DOWN:
-                    System.out.println("move DOWN");
                     currentFig.move(0, -1);
                     break;
                 case MOVE_LEFT:
-                    System.out.println("move LEFT");
                     currentFig.move(-1, 0);
                     break;
                 case MOVE_RIGHT:
-                    System.out.println("move RIGHT");
                     currentFig.move(1, 0);
                     break;
                 case ROTATE:
-                    System.out.println("ROTATE");
                     currentFig.rotate();
                     break;
             }
