@@ -5,11 +5,9 @@ import tetris.gui.Tetris;
 /**
  * Created by highway on 28/10/15.
  */
-public class FigT extends Figure {
-    private FigureOrientation orientation = FigureOrientation.NORTH;
+public class T extends Figure {
 
-
-    public FigT(int x, int y) {
+    public T(int x, int y) {
         super(x, y);
 
         color = 1;
@@ -35,19 +33,19 @@ public class FigT extends Figure {
                 blocks[0].x = blocks[0].x + 1;
                 blocks[0].y = blocks[0].y - 1;
 
-                orientation = FigureOrientation.EAST;
+                orientation = Orientation.EAST;
                 break;
             case EAST:
                 blocks[3].x = blocks[3].x - 1;
                 blocks[3].y = blocks[3].y - 1;
 
-                orientation = FigureOrientation.SOUTH;
+                orientation = Orientation.SOUTH;
                 break;
             case SOUTH:
                 blocks[2].x = blocks[2].x - 1;
                 blocks[2].y = blocks[2].y + 1;
 
-                orientation = FigureOrientation.WEST;
+                orientation = Orientation.WEST;
                 break;
             case WEST:
                 blocks[0].x = blocks[0].x - 1;
@@ -59,7 +57,7 @@ public class FigT extends Figure {
                 blocks[3].x = blocks[3].x + 1;
                 blocks[3].y = blocks[3].y + 1;
 
-                orientation = FigureOrientation.NORTH;
+                orientation = Orientation.NORTH;
                 break;
         }
 

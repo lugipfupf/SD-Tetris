@@ -5,8 +5,8 @@ import tetris.gui.Tetris;
 /**
  * Created by highway on 28/10/15.
  */
-public class FigLRight extends Figure {
-    public FigLRight(int x, int y) {
+public class L extends Figure {
+    public L(int x, int y) {
         super(x, y);
 
         color = 5;

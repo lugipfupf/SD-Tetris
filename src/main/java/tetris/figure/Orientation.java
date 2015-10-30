@@ -3,7 +3,7 @@ package tetris.figure;
 /**
  * Created by highway on 28/10/15.
  */
-public enum FigureOrientation {
+public enum Orientation {
     NORTH,
     EAST,
     SOUTH,

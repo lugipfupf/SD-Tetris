@@ -5,8 +5,8 @@ import tetris.gui.Tetris;
 /**
  * Created by highway on 28/10/15.
  */
-public class FigZRight extends Figure {
-    public FigZRight(int x, int y) {
+public class S extends Figure {
+    public S(int x, int y) {
         super(x, y);
 
         color = 7;
