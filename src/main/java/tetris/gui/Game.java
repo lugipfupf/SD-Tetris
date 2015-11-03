@@ -9,14 +9,20 @@ public class Game {
     private GUI gui;
     private Figure currentFig;
 
-    public Game(GUI gui) {
+    private int width;
+    private int height;
+
+    public Game(GUI gui, int width, int height) {
         this.gui = gui;
+        this.width = width;
+        this.height = height;
+
         gui.setVisible(true);
     }
 
     public void run() {
         // get initial figure
-        currentFig = Figure.getFigure(0, 0);
+        currentFig = Figure.getFigure(width / 2, height - 1);
         gui.drawBlocks(currentFig.getBlocks());
 
 
@@ -40,7 +46,8 @@ public class Game {
                     break;
             }
 
-            gui.drawBlocks(currentFig.getBlocks());
+            gui.repaint();
+//            gui.drawBlocks(currentFig.getBlocks());
         }
     }
 }

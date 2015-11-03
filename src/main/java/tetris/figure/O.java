@@ -12,10 +12,10 @@ public class O extends Figure {
 
         color = 2;
 
-        blocks[0] = new Block(Tetris.START_POINT_X, Tetris.HEIGHT, color);
-        blocks[1] = new Block(Tetris.START_POINT_X + 1, Tetris.HEIGHT, color);
-        blocks[2] = new Block(Tetris.START_POINT_X, Tetris.HEIGHT - 1, color);
-        blocks[3] = new Block(Tetris.START_POINT_X + 1, Tetris.HEIGHT - 1, color);
+        blocks[0] = new Block(x, y, color);
+        blocks[1] = new Block(x + 1, y, color);
+        blocks[2] = new Block(x, y - 1, color);
+        blocks[3] = new Block(x + 1, y - 1, color);
     }
 
     @Override
