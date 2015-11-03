@@ -70,6 +70,17 @@ public abstract class Figure {
         return color;
     }
 
-    public abstract void rotate();
+    public void rotate() {
+        int cx = blocks[1].x;
+        int cy = blocks[1].y;
+
+        for (Block b : blocks) {
+            int dx = b.x - cx;
+            int dy = b.y - cy;
+
+            b.x = cx + dy;
+            b.y = cy - dx;
+        }
+    }
 
 }

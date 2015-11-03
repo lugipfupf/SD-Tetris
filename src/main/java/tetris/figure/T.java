@@ -27,43 +27,6 @@ public class T extends Figure {
     }
 
     @Override
-    public void rotate() {
-        switch (orientation) {
-            case NORTH:
-                blocks[0].x = blocks[0].x + 1;
-                blocks[0].y = blocks[0].y - 1;
-
-                orientation = Orientation.EAST;
-                break;
-            case EAST:
-                blocks[3].x = blocks[3].x - 1;
-                blocks[3].y = blocks[3].y - 1;
-
-                orientation = Orientation.SOUTH;
-                break;
-            case SOUTH:
-                blocks[2].x = blocks[2].x - 1;
-                blocks[2].y = blocks[2].y + 1;
-
-                orientation = Orientation.WEST;
-                break;
-            case WEST:
-                blocks[0].x = blocks[0].x - 1;
-                blocks[0].y = blocks[0].y + 1;
-
-                blocks[2].x = blocks[2].x + 1;
-                blocks[2].y = blocks[2].y - 1;
-
-                blocks[3].x = blocks[3].x + 1;
-                blocks[3].y = blocks[3].y + 1;
-
-                orientation = Orientation.NORTH;
-                break;
-        }
-
-    }
-
-    @Override
     public Block[] getBlocks() {
         return blocks;
     }

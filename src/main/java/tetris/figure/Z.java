@@ -16,26 +16,4 @@ public class Z extends Figure {
         blocks[2] = new Block(x, y - 1, color);
         blocks[3] = new Block(x + 1, y - 1, color);
     }
-
-    @Override
-    public void rotate() {
-        switch (orientation) {
-            case NORTH:
-                blocks[0].x = blocks[0].x + 2;
-                blocks[0].y = blocks[0].y + 1;
-
-                blocks[3].y = blocks[3].y + 1;
-
-                orientation = Orientation.EAST;
-                break;
-            case EAST:
-                blocks[0].x = blocks[0].x - 2;
-                blocks[0].y = blocks[0].y - 1;
-
-                blocks[3].y = blocks[3].y - 1;
-
-                orientation = Orientation.NORTH;
-                break;
-        }
-    }
 }
