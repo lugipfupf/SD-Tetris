@@ -19,7 +19,7 @@ public class T extends Figure {
     }
 
     @Override
-    public void move(int dx, int dy) {
+    public void translate(int dx, int dy) {
         for (int i = 0; i < Tetris.MAX_BLOCKS; i++) {
             blocks[i].x += dx;
             blocks[i].y += dy;

@@ -52,8 +52,9 @@ public abstract class Figure {
         return f;
     }
 
-    public void move(int dx, int dy) {
+    public void translate(int dx, int dy) {
         // collision detection
+
 
         for (int i = 0; i < Tetris.MAX_BLOCKS; i++) {
             blocks[i].x += dx;

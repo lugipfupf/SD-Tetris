@@ -2,8 +2,6 @@ package tetris.gui;
 
 import tetris.figure.Figure;
 
-import java.util.Random;
-
 /**
  * Created by highway on 27/10/15.
  */
@@ -18,7 +16,7 @@ public class Game {
 
     public void run() {
         // get initial figure
-        currentFig = getNewBlock();
+        currentFig = Figure.getFigure(0, 0);
         gui.drawBlocks(currentFig.getBlocks());
 
 
@@ -29,13 +27,13 @@ public class Game {
                 case DROP:
                     break;
                 case MOVE_DOWN:
-                    currentFig.move(0, -1);
+                    currentFig.translate(0, -1);
                     break;
                 case MOVE_LEFT:
-                    currentFig.move(-1, 0);
+                    currentFig.translate(-1, 0);
                     break;
                 case MOVE_RIGHT:
-                    currentFig.move(1, 0);
+                    currentFig.translate(1, 0);
                     break;
                 case ROTATE:
                     currentFig.rotate();
@@ -44,9 +42,5 @@ public class Game {
 
             gui.drawBlocks(currentFig.getBlocks());
         }
-    }
-
-    private Figure getNewBlock() {
-        return Figure.getFigure(0, 0);
     }
 }
