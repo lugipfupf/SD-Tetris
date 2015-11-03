@@ -17,22 +17,4 @@ public class T extends Figure {
         blocks[2] = new Block(x + 1, y - 1, color);
         blocks[3] = new Block(x, y, color);
     }
-
-    @Override
-    public void translate(int dx, int dy) {
-        for (int i = 0; i < Tetris.MAX_BLOCKS; i++) {
-            blocks[i].x += dx;
-            blocks[i].y += dy;
-        }
-    }
-
-    @Override
-    public Block[] getBlocks() {
-        return blocks;
-    }
-
-    @Override
-    public int getColor() {
-        return color;
-    }
 }
