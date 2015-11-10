@@ -19,7 +19,7 @@ public class O extends Figure {
     }
 
     @Override
-    public void rotate() {
+    public void rotate(int direction) {
         // no rotation needed
     }
 }

@@ -20,6 +20,9 @@ import javax.swing.*;
  */
 public class GUI extends JFrame implements KeyListener {
 
+
+	private ActionHandler actionHandler;
+
 	/**
 	 * The panel that displays the field.
 	 */
@@ -122,21 +125,26 @@ public class GUI extends JFrame implements KeyListener {
 	public void keyPressed(KeyEvent event) {
 		switch (event.getKeyCode()) {
 			case KeyEvent.VK_DOWN:
-				eventQueue.offer(ActionEvent.MOVE_DOWN);
+				actionHandler.moveDown();
 				break;
 			case KeyEvent.VK_LEFT:
-				eventQueue.offer(ActionEvent.MOVE_LEFT);
+				actionHandler.moveLeft();
 				break;
 			case KeyEvent.VK_RIGHT:
-				eventQueue.offer(ActionEvent.MOVE_RIGHT);
+				actionHandler.moveRight();
 				break;
 			case KeyEvent.VK_UP:
-				eventQueue.offer(ActionEvent.ROTATE);
+                if (event.isShiftDown()) {
+				    actionHandler.rotateLeft();
+                } else {
+				    actionHandler.rotateRight();
+                }
 				break;
 			case KeyEvent.VK_SPACE:
-				eventQueue.offer(ActionEvent.DROP);
+				actionHandler.drop();
 				break;
 		}
+        repaint();
 	}
 
 	@Override
@@ -145,5 +153,9 @@ public class GUI extends JFrame implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent event) {
+	}
+
+	public void setActionHandler(ActionHandler actionHandler) {
+		this.actionHandler = actionHandler;
 	}
 }

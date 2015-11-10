@@ -1,14 +1,17 @@
 package tetris.gui;
 
+import tetris.figure.Block;
 import tetris.figure.Figure;
+
+import java.util.ArrayList;
 
 /**
  * Created by highway on 27/10/15.
  */
-public class Game {
+public class Game implements ActionHandler {
     private GUI gui;
     private Figure currentFig;
-
+    private ArrayList<Block> blocks = new ArrayList<Block>(Tetris.WIDTH * Tetris.HEIGHT);
     private int width;
     private int height;
 
@@ -16,38 +19,58 @@ public class Game {
         this.gui = gui;
         this.width = width;
         this.height = height;
+        this.gui.setActionHandler(this);
 
         gui.setVisible(true);
-    }
 
-    public void run() {
-        // get initial figure
         currentFig = Figure.getFigure(width / 2, height - 1);
         gui.drawBlocks(currentFig.getBlocks());
+    }
 
+    private boolean checkMovement(int xFrom, int xTo, int yFrom, int yTo) {
+        boolean ret = true;
+        for (Block b : blocks) {
 
-        while (true) {
-            ActionEvent event = gui.waitEvent();
-
-            switch (event) {
-                case DROP:
-                    break;
-                case MOVE_DOWN:
-                    currentFig.translate(0, -1);
-                    break;
-                case MOVE_LEFT:
-                    currentFig.translate(-1, 0);
-                    break;
-                case MOVE_RIGHT:
-                    currentFig.translate(1, 0);
-                    break;
-                case ROTATE:
-                    currentFig.rotate();
-                    break;
-            }
-
-            gui.repaint();
-//            gui.drawBlocks(currentFig.getBlocks());
         }
+
+        return ret;
+    }
+
+
+    @Override
+    public void moveDown() {
+        currentFig.translate(0, -1);
+    }
+
+    @Override
+    public void moveLeft() {
+        currentFig.translate(-1, 0);
+    }
+
+    @Override
+    public void moveRight() {
+        currentFig.translate(1, 0);
+    }
+
+    @Override
+    public void rotateLeft() {
+        currentFig.rotate(-1);
+    }
+
+    @Override
+    public void rotateRight() {
+        currentFig.rotate(1);
+    }
+
+    @Override
+    public void drop() {
+        for (Block block : currentFig.getBlocks()) {
+            blocks.add(block);
+        }
+
+        gui.clearBlocks(currentFig.getBlocks());
+        currentFig = Figure.getFigure(width / 2, height - 1);
+        gui.drawBlocks(currentFig.getBlocks());
+        gui.drawBlocks(blocks);
     }
 }

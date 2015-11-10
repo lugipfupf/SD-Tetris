@@ -11,7 +11,6 @@ public abstract class Figure {
     protected Block[] blocks;
     protected int color;
     protected int x, y;
-    protected Orientation orientation = Orientation.NORTH;
 
     private static Random r = new Random();
 
@@ -70,7 +69,7 @@ public abstract class Figure {
         return color;
     }
 
-    public void rotate() {
+    public void rotate(int direction) {
         int cx = blocks[1].x;
         int cy = blocks[1].y;
 
@@ -78,8 +77,8 @@ public abstract class Figure {
             int dx = b.x - cx;
             int dy = b.y - cy;
 
-            b.x = cx + dy;
-            b.y = cy - dx;
+            b.x = cx + direction * dy;
+            b.y = cy - direction * dx;
         }
     }
 

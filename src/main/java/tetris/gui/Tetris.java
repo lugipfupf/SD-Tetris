@@ -11,6 +11,5 @@ public class Tetris {
     public static void main(String[] args) {
         GUI gui = new GUI(WIDTH, HEIGHT);
         Game game = new Game(gui, WIDTH, HEIGHT);
-        game.run();
     }
 }
