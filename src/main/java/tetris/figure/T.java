@@ -1,7 +1,5 @@
 package tetris.figure;
 
-import tetris.gui.Tetris;
-
 /**
  * Created by highway on 28/10/15.
  */

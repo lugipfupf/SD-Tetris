@@ -1,4 +1,7 @@
-package tetris.gui;
+package tetris;
+
+import tetris.gui.GUI;
+import tetris.game.Game;
 
 /**
  * Created by highway on 27/10/15.
