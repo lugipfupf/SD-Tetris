@@ -7,7 +7,6 @@ import tetris.figure.CollisionException;
  */
 public interface ActionHandler {
     void moveDown() throws CollisionException;
-    void moveUp() throws CollisionException;
     void moveLeft() throws CollisionException;
     void moveRight() throws CollisionException;
     void rotateLeft() throws CollisionException;

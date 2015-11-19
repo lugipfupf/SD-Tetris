@@ -127,39 +127,19 @@ public class GUI extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent event) {
         switch (event.getKeyCode()) {
             case KeyEvent.VK_DOWN:
-                try {
                     actionHandler.moveDown();
-                } catch (CollisionException e) {
-                    actionHandler.moveUp();
-                }
                 break;
             case KeyEvent.VK_LEFT:
-                try {
                     actionHandler.moveLeft();
-                } catch (CollisionException e) {
-                    actionHandler.moveRight();
-                }
                 break;
             case KeyEvent.VK_RIGHT:
-                try {
                     actionHandler.moveRight();
-                } catch (CollisionException e) {
-                    actionHandler.moveLeft();
-                }
                 break;
             case KeyEvent.VK_UP:
-                if (event.isShiftDown()) {
                     actionHandler.rotateLeft();
-                } else {
-                    actionHandler.rotateRight();
-                }
                 break;
             case KeyEvent.VK_SPACE:
-                try {
                     actionHandler.drop();
-                } catch (CollisionException e) {
-                    actionHandler.moveUp();
-                }
                 break;
         }
         repaint();
