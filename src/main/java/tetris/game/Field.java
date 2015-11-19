@@ -23,9 +23,11 @@ public class Field {
         this.height = height;
     }
 
-
-
     public boolean isColliding(Figure fig) {
+        return isCollidingWithBlock(fig) || isCollidingWithBorder(fig);
+    }
+
+    private boolean isCollidingWithBlock(Figure fig) {
         for (Block drawn : blocks) {
             for (Block checker : fig.getBlocks()) {
                 if (checker.x == drawn.x && checker.y == drawn.y) {
@@ -37,7 +39,7 @@ public class Field {
         return false;
     }
 
-    public boolean isBorder(Figure fig) {
+    private boolean isCollidingWithBorder(Figure fig) {
         for (Block b : fig.getBlocks()) {
             if (b.x < 0 || b.y < 0) {
                 return true;
@@ -52,7 +54,7 @@ public class Field {
     }
 
     public Figure depositFigure(Figure figure) {
-        blocks.addAll(Arrays.asList(currentFig.getBlocks()));
+        blocks.addAll(Arrays.asList(figure.getBlocks()));
 
         return getNewFigure();
     }

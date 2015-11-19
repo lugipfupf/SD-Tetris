@@ -142,7 +142,6 @@ public class GUI extends JFrame implements KeyListener {
                     actionHandler.drop();
                 break;
         }
-        repaint();
     }
 
     @Override

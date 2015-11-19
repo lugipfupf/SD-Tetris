@@ -20,21 +20,27 @@ public class Game {
     public Game(GUI gui, int width, int height) {
         this.gui = gui;
         this.field = new Field(width, height);
-        this.gui.setActionHandler(new FigureController());
+        FigureController controller = new FigureController();
+
+        this.gui.setActionHandler(controller);
 
         gui.setVisible(true);
 
         currentFig = field.getNewFigure();
         gui.drawBlocks(currentFig.getBlocks());
-    }
 
+        Timer t = new Timer();
+        t.setActionHandler(controller);
+        t.run();
+    }
 
     public class FigureController implements ActionHandler {
         @Override
         public void moveDown() {
             currentFig.translate(0, -1);
+            gui.repaint();
 
-            if (field.isColliding(currentFig) || field.isBorder(currentFig)) {
+            if (field.isColliding(currentFig)) {
                 currentFig.translate(0, 1);
             }
         }
@@ -42,7 +48,8 @@ public class Game {
         @Override
         public void moveLeft() {
             currentFig.translate(-1, 0);
-            if (field.isColliding(currentFig) || field.isBorder(currentFig)) {
+            gui.repaint();
+            if (field.isColliding(currentFig)) {
                 moveRight();
                 throw new CollisionException();
             }
@@ -51,8 +58,9 @@ public class Game {
         @Override
         public void moveRight() {
             currentFig.translate(1, 0);
+            gui.repaint();
 
-            if (field.isColliding(currentFig) || field.isBorder(currentFig)) {
+            if (field.isColliding(currentFig)) {
                 moveLeft();
                 throw new CollisionException();
             }
@@ -61,8 +69,9 @@ public class Game {
         @Override
         public void rotateLeft() {
             currentFig.rotate(-1);
+            gui.repaint();
 
-            if (field.isColliding(currentFig) || field.isBorder(currentFig)) {
+            if (field.isColliding(currentFig)) {
                 rotateRight();
                 throw new CollisionException();
             }
@@ -71,7 +80,9 @@ public class Game {
         @Override
         public void rotateRight() {
             currentFig.rotate(1);
-            if (field.isColliding(currentFig) || field.isBorder(currentFig)) {
+            gui.repaint();
+
+            if (field.isColliding(currentFig)) {
                 rotateLeft();
                 throw new CollisionException();
             }
@@ -79,7 +90,7 @@ public class Game {
 
         @Override
         public void drop() {
-            while (!field.isColliding(currentFig) && !field.isBorder(currentFig)) {
+            while (!field.isColliding(currentFig)) {
                 currentFig.translate(0, -1);
             }
             currentFig.translate(0, 1);
@@ -89,6 +100,7 @@ public class Game {
             gui.clearBlocks(currentFig.getBlocks());
             gui.drawBlocks(currentFig.getBlocks());
             gui.drawBlocks(blocks);
+            gui.repaint();
         }
     }
 }
