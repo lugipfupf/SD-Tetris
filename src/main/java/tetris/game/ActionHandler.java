@@ -1,7 +1,6 @@
 package tetris.game;
 
 
-import tetris.figure.CollisionException;
 /**
  * Created by highway on 10/11/15.
  */

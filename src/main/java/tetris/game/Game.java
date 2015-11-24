@@ -2,7 +2,6 @@ package tetris.game;
 
 import tetris.Tetris;
 import tetris.figure.Block;
-import tetris.figure.CollisionException;
 import tetris.figure.Figure;
 import tetris.gui.GUI;
 

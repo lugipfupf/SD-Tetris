@@ -1,7 +1,6 @@
 package tetris.gui;
 
 import tetris.figure.Block;
-import tetris.figure.CollisionException;
 import tetris.game.ActionHandler;
 
 import java.awt.BorderLayout;
