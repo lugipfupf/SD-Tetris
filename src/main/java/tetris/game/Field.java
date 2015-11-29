@@ -4,9 +4,6 @@ import tetris.Tetris;
 import tetris.figure.Block;
 import tetris.figure.Figure;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * Created by highway on 17/11/15.
  */
@@ -21,7 +18,8 @@ public class Field {
         this.width = width;
         this.height = height;
 
-        field = new Block[width][height];
+        field = new Block[height][width];
+        System.out.println(field.length + " x " + field[0].length);
     }
 
     public boolean isColliding(Figure fig) {
@@ -30,7 +28,7 @@ public class Field {
 
     private boolean isCollidingWithBlock(Figure fig) {
         for (Block b : fig.getBlocks()) {
-            if (b.y < height && field[b.x][b.y] != null) {
+            if (b.y < height && field[b.y][b.x] != null) {
                 return true;
             }
         }
@@ -52,9 +50,27 @@ public class Field {
         return false;
     }
 
+    public void removeFullRows() {
+        for (int i = 0; i < height; i++) {
+            if (isRowFull(field[i])) {
+                System.out.println("Line " + i + " is full");
+            }
+        }
+    }
+
+    private boolean isRowFull(Block[] line) {
+        for (int i = 0; i < width; i++) {
+            if (line[i] == null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public Figure depositFigure(Figure figure) {
         for (Block b : figure.getBlocks()) {
-            field[b.x][b.y] = b;
+            field[b.y][b.x] = b;
         }
 
         return getNewFigure();
