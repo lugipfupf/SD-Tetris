@@ -2,6 +2,7 @@ package tetris.gui;
 
 import tetris.figure.Block;
 import tetris.game.ActionHandler;
+import tetris.game.CollisionException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -124,23 +125,25 @@ public class GUI extends JFrame implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent event) {
-        switch (event.getKeyCode()) {
-            case KeyEvent.VK_DOWN:
+        try {
+            switch (event.getKeyCode()) {
+                case KeyEvent.VK_DOWN:
                     actionHandler.moveDown();
-                break;
-            case KeyEvent.VK_LEFT:
+                    break;
+                case KeyEvent.VK_LEFT:
                     actionHandler.moveLeft();
-                break;
-            case KeyEvent.VK_RIGHT:
+                    break;
+                case KeyEvent.VK_RIGHT:
                     actionHandler.moveRight();
-                break;
-            case KeyEvent.VK_UP:
+                    break;
+                case KeyEvent.VK_UP:
                     actionHandler.rotateLeft();
-                break;
-            case KeyEvent.VK_SPACE:
+                    break;
+                case KeyEvent.VK_SPACE:
                     actionHandler.drop();
-                break;
-        }
+                    break;
+            }
+        } catch (CollisionException e) {}
     }
 
     @Override

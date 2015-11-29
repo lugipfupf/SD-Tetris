@@ -58,19 +58,43 @@ public class Field {
         ArrayList<Block> blocksToRemove = new ArrayList<>();
 
         boolean[] rowsToRemove = new boolean[height];
+        int count = 0;
 
-        for (int i = 0; i < height; i++) {
+        for (int i = height - 1; i >= 0; i--) {
             rowsToRemove[i] = isRowFull(field[i]);
         }
 
-        for (int i = 0; i < height; i++) {
+        for (int i = height - 1; i >= 0; i--) {
             if (rowsToRemove[i]) {
+                count++;
+                System.out.println("remove row " + i);
+
                 blocksToRemove.addAll(Arrays.asList(field[i]));
                 clearRow(field[i]);
             }
         }
 
+        for (int i = height -1; i >= 0; i--) {
+            if (rowsToRemove[i]) {
+                reposition(i, count);
+                break;
+            }
+        }
+
         return blocksToRemove;
+    }
+
+    private void reposition(int start, int howmany) {
+        for (int i = start + 1; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (field[i][j] != null) {
+                    Block b = field[i][j];
+                    field[i][j] = null;
+                    b.y = b.y - howmany;
+                    field[i - howmany][j] = b;
+                }
+            }
+        }
     }
 
     private void clearRow(Block[] row) {
@@ -87,6 +111,20 @@ public class Field {
         }
 
         return true;
+    }
+
+    public List<Block> getBlocks() {
+        ArrayList<Block> list = new ArrayList<>();
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (field[i][j] != null) {
+                    list.add(field[i][j]);
+                }
+            }
+        }
+
+        return list;
     }
 
     public Figure depositFigure(Figure figure) {

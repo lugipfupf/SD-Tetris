@@ -27,17 +27,20 @@ public class Game {
         currentFig = field.getNewFigure();
         gui.drawBlocks(currentFig.getBlocks());
 
-//        Timer t = new Timer();
-//        t.setActionHandler(controller);
-//        t.run();
+        Timer t = new Timer();
+        t.setActionHandler(controller);
+        t.run();
     }
 
     private void figureLanded() {
+        gui.clearBlocks(field.getBlocks());
+
         currentFig = field.depositFigure(currentFig);
 
         gui.clearBlocks(currentFig.getBlocks());
-
         gui.clearBlocks(field.removeFullRows());
+
+        gui.drawBlocks(field.getBlocks());
         gui.drawBlocks(currentFig.getBlocks());
     }
 
