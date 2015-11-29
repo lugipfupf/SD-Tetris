@@ -14,7 +14,6 @@ public class Game {
     private GUI gui;
     private Figure currentFig;
     private Field field;
-    private ArrayList<Block> blocks = new ArrayList<Block>(Tetris.WIDTH * Tetris.HEIGHT);
 
     public Game(GUI gui, int width, int height) {
         this.gui = gui;
@@ -28,9 +27,18 @@ public class Game {
         currentFig = field.getNewFigure();
         gui.drawBlocks(currentFig.getBlocks());
 
-        Timer t = new Timer();
-        t.setActionHandler(controller);
-        t.run();
+//        Timer t = new Timer();
+//        t.setActionHandler(controller);
+//        t.run();
+    }
+
+    private void figureLanded() {
+        currentFig = field.depositFigure(currentFig);
+
+        gui.clearBlocks(currentFig.getBlocks());
+
+//        field.removeFullRows();
+        gui.drawBlocks(currentFig.getBlocks());
     }
 
     public class FigureController implements ActionHandler {
@@ -41,6 +49,7 @@ public class Game {
 
             if (field.isColliding(currentFig)) {
                 currentFig.translate(0, 1);
+                figureLanded();
             }
         }
 
@@ -93,13 +102,7 @@ public class Game {
                 currentFig.translate(0, -1);
             }
             currentFig.translate(0, 1);
-
-            currentFig = field.depositFigure(currentFig);
-
-            gui.clearBlocks(currentFig.getBlocks());
-            gui.drawBlocks(currentFig.getBlocks());
-            gui.drawBlocks(blocks);
-            gui.repaint();
+            figureLanded();
         }
     }
 }

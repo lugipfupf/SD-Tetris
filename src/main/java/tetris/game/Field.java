@@ -13,26 +13,25 @@ import java.util.Arrays;
 public class Field {
     int width, height;
 
-
     Figure currentFig;
 
-    private ArrayList<Block> blocks = new ArrayList<Block>(Tetris.WIDTH * Tetris.HEIGHT);
+    private Block[][] field;
 
     public Field(int width, int height) {
         this.width = width;
         this.height = height;
+
+        field = new Block[width][height];
     }
 
     public boolean isColliding(Figure fig) {
-        return isCollidingWithBlock(fig) || isCollidingWithBorder(fig);
+        return isCollidingWithBorder(fig) || isCollidingWithBlock(fig);
     }
 
     private boolean isCollidingWithBlock(Figure fig) {
-        for (Block drawn : blocks) {
-            for (Block checker : fig.getBlocks()) {
-                if (checker.x == drawn.x && checker.y == drawn.y) {
-                    return true;
-                }
+        for (Block b : fig.getBlocks()) {
+            if (b.y < height && field[b.x][b.y] != null) {
+                return true;
             }
         }
 
@@ -54,7 +53,9 @@ public class Field {
     }
 
     public Figure depositFigure(Figure figure) {
-        blocks.addAll(Arrays.asList(figure.getBlocks()));
+        for (Block b : figure.getBlocks()) {
+            field[b.x][b.y] = b;
+        }
 
         return getNewFigure();
     }
@@ -63,6 +64,7 @@ public class Field {
         currentFig = Figure.getFigure(width / 2, height - 1);
         return currentFig;
     }
+
     public int getWidth() {
         return width;
     }
