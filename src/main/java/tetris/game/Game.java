@@ -37,7 +37,7 @@ public class Game {
 
         gui.clearBlocks(currentFig.getBlocks());
 
-        field.removeFullRows();
+        gui.clearBlocks(field.removeFullRows());
         gui.drawBlocks(currentFig.getBlocks());
     }
 

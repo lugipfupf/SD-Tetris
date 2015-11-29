@@ -4,6 +4,10 @@ import tetris.Tetris;
 import tetris.figure.Block;
 import tetris.figure.Figure;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by highway on 17/11/15.
  */
@@ -50,17 +54,34 @@ public class Field {
         return false;
     }
 
-    public void removeFullRows() {
+    public List<Block> removeFullRows() {
+        ArrayList<Block> blocksToRemove = new ArrayList<>();
+
+        boolean[] rowsToRemove = new boolean[height];
+
         for (int i = 0; i < height; i++) {
-            if (isRowFull(field[i])) {
-                System.out.println("Line " + i + " is full");
+            rowsToRemove[i] = isRowFull(field[i]);
+        }
+
+        for (int i = 0; i < height; i++) {
+            if (rowsToRemove[i]) {
+                blocksToRemove.addAll(Arrays.asList(field[i]));
+                clearRow(field[i]);
             }
+        }
+
+        return blocksToRemove;
+    }
+
+    private void clearRow(Block[] row) {
+        for (int i = 0; i < width; i++) {
+            row[i] = null;
         }
     }
 
-    private boolean isRowFull(Block[] line) {
+    private boolean isRowFull(Block[] row) {
         for (int i = 0; i < width; i++) {
-            if (line[i] == null) {
+            if (row[i] == null) {
                 return false;
             }
         }
