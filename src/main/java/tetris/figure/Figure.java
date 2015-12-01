@@ -1,6 +1,7 @@
 package tetris.figure;
 
 import tetris.Tetris;
+import tetris.gui.Block;
 
 import java.util.Random;
 

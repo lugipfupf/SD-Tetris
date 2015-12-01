@@ -1,7 +1,5 @@
 package tetris.gui;
 
-import tetris.figure.Block;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -24,7 +22,7 @@ public class FieldPanel extends JPanel {
 
 	private static final Color BORDER_COLOR = Color.GRAY;
 	private static final Color[] COLOR_PALETTE = new Color[]{
-		Color.RED, Color.YELLOW, Color.MAGENTA, Color.BLUE, Color.CYAN, Color.GREEN, Color.ORANGE
+		Color.RED, Color.YELLOW, Color.MAGENTA, Color.BLUE, Color.CYAN, Color.GREEN, Color.GRAY
 	};
 
 	/**

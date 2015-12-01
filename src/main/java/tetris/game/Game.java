@@ -1,11 +1,8 @@
 package tetris.game;
 
-import tetris.Tetris;
-import tetris.figure.Block;
 import tetris.figure.Figure;
+import tetris.gui.ActionHandler;
 import tetris.gui.GUI;
-
-import java.util.ArrayList;
 
 /**
  * Created by highway on 27/10/15.

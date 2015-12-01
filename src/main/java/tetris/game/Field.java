@@ -1,7 +1,7 @@
 package tetris.game;
 
 import tetris.Tetris;
-import tetris.figure.Block;
+import tetris.gui.Block;
 import tetris.figure.Figure;
 
 import java.util.ArrayList;

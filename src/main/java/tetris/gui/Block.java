@@ -1,4 +1,4 @@
-package tetris.figure;
+package tetris.gui;
 
 /**
  * The class Block implements a block of the Tetris game.

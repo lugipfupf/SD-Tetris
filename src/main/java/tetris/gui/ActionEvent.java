@@ -8,5 +8,5 @@ package tetris.gui;
  */
 public enum ActionEvent {
 
-	MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, ROTATE, DROP
+	MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, ROTATE_LEFT, ROTATE_RIGHT, DROP
 }
