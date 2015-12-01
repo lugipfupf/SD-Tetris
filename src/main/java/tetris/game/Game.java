@@ -33,8 +33,6 @@ public class Game {
     }
 
     private void figureLanded() {
-        gui.clearBlocks(field.getBlocks());
-
         currentFig = field.depositFigure(currentFig);
 
         gui.clearBlocks(currentFig.getBlocks());
