@@ -11,10 +11,15 @@ public class Game {
     private GUI gui;
     private Figure currentFig;
     private Field field;
+    private Scoring scoring;
 
     public Game(GUI gui, int width, int height) {
         this.gui = gui;
         this.field = new Field(width, height);
+        this.scoring = new Scoring();
+
+        updateScore();
+
         FigureController controller = new FigureController();
 
         this.gui.setActionHandler(controller);
@@ -37,6 +42,16 @@ public class Game {
 
         gui.drawBlocks(field.getBlocks());
         gui.drawBlocks(currentFig.getBlocks());
+
+        updateScore();
+    }
+
+    private void updateScore() {
+        scoring.update(field.getRowsRemoved());
+
+        gui.setLevel(scoring.getLevel());
+        gui.setScore(scoring.getScore());
+        gui.setHighScore(scoring.getHighScore());
     }
 
     public class FigureController implements ActionHandler {

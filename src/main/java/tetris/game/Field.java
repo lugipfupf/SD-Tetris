@@ -12,7 +12,7 @@ import java.util.List;
  * Created by highway on 17/11/15.
  */
 public class Field {
-    int width, height;
+    int width, height, rowsRemoved;
 
     Figure currentFig;
 
@@ -54,11 +54,15 @@ public class Field {
         return false;
     }
 
+    public int getRowsRemoved() {
+        return rowsRemoved;
+    }
+
     public List<Block> removeFullRows() {
         ArrayList<Block> blocksToRemove = new ArrayList<>();
 
         boolean[] rowsToRemove = new boolean[height];
-        int count = 0;
+        rowsRemoved = 0;
 
         for (int i = height - 1; i >= 0; i--) {
             rowsToRemove[i] = isRowFull(field[i]);
@@ -66,7 +70,7 @@ public class Field {
 
         for (int i = height - 1; i >= 0; i--) {
             if (rowsToRemove[i]) {
-                count++;
+                rowsRemoved++;
                 System.out.println("remove row " + i);
 
                 blocksToRemove.addAll(Arrays.asList(field[i]));
@@ -76,7 +80,7 @@ public class Field {
 
         for (int i = height -1; i >= 0; i--) {
             if (rowsToRemove[i]) {
-                reposition(i, count);
+                reposition(i, rowsRemoved);
                 break;
             }
         }
