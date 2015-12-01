@@ -139,20 +139,4 @@ public class Field {
         currentFig = Figure.getFigure(width / 2, height - 1);
         return currentFig;
     }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
 }
