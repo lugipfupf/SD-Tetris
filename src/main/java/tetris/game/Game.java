@@ -1,5 +1,6 @@
 package tetris.game;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import tetris.figure.Figure;
 import tetris.gui.ActionHandler;
 import tetris.gui.GUI;
@@ -26,7 +27,11 @@ public class Game {
 
         gui.setVisible(true);
 
-        currentFig = field.getNewFigure();
+        try {
+            currentFig = field.getNewFigure();
+        } catch (GameOverException e) {
+            e.printStackTrace();
+        }
         gui.drawBlocks(currentFig.getBlocks());
 
         Timer t = new Timer();
@@ -35,7 +40,13 @@ public class Game {
     }
 
     private void figureLanded() {
-        currentFig = field.depositFigure(currentFig);
+        try {
+            currentFig = field.depositFigure(currentFig);
+        } catch (GameOverException e) {
+            System.out.println("G A M E   O V E R");
+            System.out.println("Score: " + scoring.getScore() + " Level: " + scoring.getLevel() + " Highscore: " + scoring.getHighScore());
+            System.exit(0);
+        }
 
         gui.clearBlocks(currentFig.getBlocks());
         gui.clearBlocks(field.removeFullRows());

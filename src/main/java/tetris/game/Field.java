@@ -23,7 +23,6 @@ public class Field {
         this.height = height;
 
         field = new Block[height][width];
-        System.out.println(field.length + " x " + field[0].length);
     }
 
     public boolean isColliding(Figure fig) {
@@ -131,7 +130,7 @@ public class Field {
         return list;
     }
 
-    public Figure depositFigure(Figure figure) {
+    public Figure depositFigure(Figure figure) throws GameOverException {
         for (Block b : figure.getBlocks()) {
             field[b.y][b.x] = b;
         }
@@ -139,8 +138,11 @@ public class Field {
         return getNewFigure();
     }
 
-    public Figure getNewFigure() {
+    public Figure getNewFigure() throws GameOverException{
         currentFig = Figure.getFigure(width / 2, height - 1);
+        if (isCollidingWithBlock(currentFig)) {
+            throw new GameOverException();
+        }
         return currentFig;
     }
 }
