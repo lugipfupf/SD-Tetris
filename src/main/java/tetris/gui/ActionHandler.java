@@ -1,7 +1,7 @@
 package tetris.gui;
 
 /**
- * The interface ActionHandler defines the methods to handle the actions of the Tetris game.
+ * The interface ActionHandler defines the methods to move a Tetris figure.
  *
  * @author Stephan Fischli
  * @version 2.0
@@ -36,5 +36,5 @@ public interface ActionHandler {
 	/**
 	 * Drops the figure.
 	 */
-	void drop();
+	void drop() throws Exception;
 }

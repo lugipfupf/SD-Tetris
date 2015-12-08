@@ -67,7 +67,6 @@ public class Scoring {
     public void reset() {
         level = 0;
         score = 0;
-        highScore = 0;
     }
 
     public int getLevel() {

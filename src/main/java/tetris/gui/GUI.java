@@ -1,6 +1,5 @@
 package tetris.gui;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -32,14 +31,19 @@ public class GUI extends JFrame implements KeyListener {
 	private final ControlPanel controlPanel;
 
 	/**
+	 * The handler of the status change events.
+	 */
+	private StatusHandler statusHandler;
+
+	/**
+	 * The handler of the figure action events.
+	 */
+	private ActionHandler actionHandler = new QueueActionHandler();
+
+	/**
 	 * The queue of action events.
 	 */
 	private final BlockingQueue<ActionEvent> eventQueue = new ArrayBlockingQueue<>(10);
-
-	/**
-	 * The handler of the game actions.
-	 */
-	private ActionHandler actionHandler = new QueueActionHandler();
 
 	/**
 	 * Constructs a graphical user interface.
@@ -51,7 +55,7 @@ public class GUI extends JFrame implements KeyListener {
 
 		// initialize
 		super("Tetris");
-		setLayout(new BorderLayout(20, 20));
+		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.BLACK);
 		setFocusable(true);
@@ -59,10 +63,11 @@ public class GUI extends JFrame implements KeyListener {
 
 		// add components
 		fieldPanel = new FieldPanel(width, height);
-		getContentPane().add(Box.createVerticalStrut(20), BorderLayout.NORTH);
-		getContentPane().add(Box.createHorizontalStrut(20), BorderLayout.WEST);
+		fieldPanel.setBackground(Color.yellow);
+		getContentPane().add(Box.createVerticalStrut(25), BorderLayout.NORTH);
+		getContentPane().add(Box.createHorizontalStrut(35), BorderLayout.WEST);
 		getContentPane().add(fieldPanel, BorderLayout.CENTER);
-		getContentPane().add(Box.createHorizontalStrut(20), BorderLayout.EAST);
+		getContentPane().add(Box.createHorizontalStrut(25), BorderLayout.EAST);
 		controlPanel = new ControlPanel();
 		getContentPane().add(controlPanel, BorderLayout.SOUTH);
 
@@ -74,7 +79,16 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	/**
-	 * Registers the handler that handles the game actions.
+	 * Registers the handler that handles the status change events.
+	 *
+	 * @param handler the status handler
+	 */
+	public void setStatusHandler(StatusHandler handler) {
+		statusHandler = handler;
+	}
+
+	/**
+	 * Registers the handler that handles the figure action events.
 	 *
 	 * @param handler the action handler
 	 */
@@ -157,6 +171,13 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	/**
+	 * Sets the status of the game to be displayed.
+	 */
+	public void setStatus(Status status) {
+		controlPanel.setStatus(status);
+	}
+
+	/**
 	 * Handles a key event.
 	 *
 	 * @param event the event to be handled
@@ -165,6 +186,11 @@ public class GUI extends JFrame implements KeyListener {
 	public void keyPressed(KeyEvent event) {
 		try {
 			switch (event.getKeyCode()) {
+				case KeyEvent.VK_ENTER:
+					if (statusHandler != null) {
+						statusHandler.changeStatus();
+					}
+					break;
 				case KeyEvent.VK_DOWN:
 					actionHandler.moveDown();
 					break;
@@ -176,9 +202,9 @@ public class GUI extends JFrame implements KeyListener {
 					break;
 				case KeyEvent.VK_UP:
 					if (event.isShiftDown()) {
-						actionHandler.rotateLeft();
-					} else {
 						actionHandler.rotateRight();
+					} else {
+						actionHandler.rotateLeft();
 					}
 					break;
 				case KeyEvent.VK_SPACE:
@@ -186,7 +212,7 @@ public class GUI extends JFrame implements KeyListener {
 					break;
 			}
 		} catch (Exception ex) {
-			System.err.println(ex.getMessage());
+			System.err.println(ex);
 			Toolkit.getDefaultToolkit().beep();
 		}
 	}

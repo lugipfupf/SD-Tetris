@@ -1,9 +1,11 @@
 package tetris.game;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import tetris.figure.Figure;
+import tetris.figure.Movement;
 import tetris.gui.ActionHandler;
 import tetris.gui.GUI;
+import tetris.gui.Status;
+import tetris.gui.StatusHandler;
 
 /**
  * Created by highway on 27/10/15.
@@ -13,6 +15,10 @@ public class Game {
     private Figure currentFig;
     private Field field;
     private Scoring scoring;
+    private Timer t = new Timer();
+    private Status status = Status.READY;
+    private FigureController figureController = new FigureController();
+    private GameController gameController = new GameController();
 
     public Game(GUI gui, int width, int height) {
         this.gui = gui;
@@ -21,11 +27,12 @@ public class Game {
 
         updateScore();
 
-        FigureController controller = new FigureController();
-
-        this.gui.setActionHandler(controller);
+        this.gui.setActionHandler(figureController);
+        this.gui.setStatusHandler(gameController);
+        this.gui.setStatus(status);
 
         gui.setVisible(true);
+
 
         try {
             currentFig = field.getNewFigure();
@@ -34,9 +41,6 @@ public class Game {
         }
         gui.drawBlocks(currentFig.getBlocks());
 
-        Timer t = new Timer();
-        t.setActionHandler(controller);
-        t.run();
     }
 
     private void figureLanded() {
@@ -45,7 +49,12 @@ public class Game {
         } catch (GameOverException e) {
             System.out.println("G A M E   O V E R");
             System.out.println("Score: " + scoring.getScore() + " Level: " + scoring.getLevel() + " Highscore: " + scoring.getHighScore());
-            System.exit(0);
+
+            status = Status.OVER;
+            gui.setStatus(status);
+            gui.clearBlocks(currentFig.getBlocks());
+            gui.clearBlocks(field.getBlocks());
+            field.clear();
         }
 
         gui.clearBlocks(currentFig.getBlocks());
@@ -67,66 +76,80 @@ public class Game {
 
     public class FigureController implements ActionHandler {
         @Override
-        public void moveDown() {
-            currentFig.translate(0, -1);
-            gui.repaint();
-
-            if (field.isColliding(currentFig)) {
-                currentFig.translate(0, 1);
-                figureLanded();
-            }
-        }
-
-        @Override
         public void moveLeft() {
-            currentFig.translate(-1, 0);
-            gui.repaint();
-            if (field.isColliding(currentFig)) {
-                moveRight();
-                throw new CollisionException();
-            }
+            perform(f -> f.translate(-1, 0), f -> f.translate(1, 0));
         }
 
         @Override
         public void moveRight() {
-            currentFig.translate(1, 0);
-            gui.repaint();
-
-            if (field.isColliding(currentFig)) {
-                moveLeft();
-                throw new CollisionException();
-            }
+            perform(f -> f.translate(1, 0), f -> f.translate(-1, 0));
         }
 
         @Override
         public void rotateLeft() {
-            currentFig.rotate(-1);
-            gui.repaint();
-
-            if (field.isColliding(currentFig)) {
-                rotateRight();
-                throw new CollisionException();
-            }
+            perform(f -> f.rotate(-1), f -> f.rotate(1));
         }
 
         @Override
         public void rotateRight() {
-            currentFig.rotate(1);
-            gui.repaint();
+            perform(f -> f.rotate(1), f -> f.rotate(-1));
+        }
 
-            if (field.isColliding(currentFig)) {
-                rotateLeft();
-                throw new CollisionException();
-            }
+        @Override
+        public void moveDown() {
+            perform(
+                    f -> f.translate(0, -1),
+                    f -> {
+                        f.translate(0, 1);
+                        figureLanded();
+                    }
+            );
         }
 
         @Override
         public void drop() {
-            while (!field.isColliding(currentFig)) {
-                currentFig.translate(0, -1);
+            boolean landed = false;
+            while (!landed) {
+                try {
+                    moveDown();
+                } catch (CollisionException e) {
+                    landed = true;
+                }
             }
-            currentFig.translate(0, 1);
-            figureLanded();
+        }
+
+        public void perform(Movement M, Movement N) throws CollisionException {
+            M.make(currentFig);
+
+            if (field.isColliding(currentFig)) {
+                N.make(currentFig);
+                throw new CollisionException();
+            }
+
+            gui.repaint();
+        }
+    }
+
+    public class GameController implements StatusHandler {
+        @Override
+        public void changeStatus() throws Exception {
+            switch (status) {
+                case READY:
+                    status = Status.RUNNING;
+                    break;
+                case RUNNING:
+                    t = null;
+                    status = Status.PAUSED;
+                    break;
+                case OVER:
+                    status = Status.READY;
+                    break;
+                case PAUSED:
+                    status = Status.RUNNING;
+                    break;
+            }
+            gui.setStatus(status);
+            System.out.println(status);
         }
     }
 }

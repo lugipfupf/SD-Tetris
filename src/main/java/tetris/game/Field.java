@@ -145,4 +145,12 @@ public class Field {
         }
         return currentFig;
     }
+
+    public void clear() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                field[i][j] = null;
+            }
+        }
+    }
 }

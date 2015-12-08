@@ -1,7 +1,7 @@
 package tetris.gui;
 
 /**
- * The enumeration ActionEvent defines the events used to control the Tetris game.
+ * The enumeration ActionEvent represents events used to move a Tetris figure.
  *
  * @author Stephan Fischli
  * @version 2.0
