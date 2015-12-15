@@ -9,17 +9,17 @@ package tetris.gui;
 public interface ActionHandler {
 
 	/**
-	 * Moves the figure down.
+	 * Moves the figure downwards.
 	 */
 	void moveDown() throws Exception;
 
 	/**
-	 * Moves the figure left.
+	 * Moves the figure to the left.
 	 */
 	void moveLeft() throws Exception;
 
 	/**
-	 * Moves the figure right.
+	 * Moves the figure to the right.
 	 */
 	void moveRight() throws Exception;
 

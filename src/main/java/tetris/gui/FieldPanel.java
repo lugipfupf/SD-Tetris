@@ -63,12 +63,19 @@ public class FieldPanel extends JPanel {
 	}
 
 	/**
-	 * Adds blocks to the field.
+	 * Removes blocks from the field.
 	 *
 	 * @param blocks the blocks to be added
 	 */
 	public void removeBlocks(List<Block> blocks) {
 		this.blocks.removeAll(blocks);
+	}
+
+	/**
+	 * Removes all blocks from the field.
+	 */
+	public void removeAllBlocks() {
+		this.blocks.clear();
 	}
 
 	/**

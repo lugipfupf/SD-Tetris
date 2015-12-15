@@ -79,7 +79,7 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	/**
-	 * Registers the handler that handles the status change events.
+	 * Registers the handler of the status change events.
 	 *
 	 * @param handler the status handler
 	 */
@@ -88,7 +88,7 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	/**
-	 * Registers the handler that handles the figure action events.
+	 * Registers the handler of the figure action events.
 	 *
 	 * @param handler the action handler
 	 */
@@ -116,7 +116,6 @@ public class GUI extends JFrame implements KeyListener {
 	 */
 	public void drawBlocks(List<Block> blocks) {
 		fieldPanel.addBlocks(blocks);
-		repaint();
 	}
 
 	/**
@@ -126,7 +125,6 @@ public class GUI extends JFrame implements KeyListener {
 	 */
 	public void drawBlocks(Block[] blocks) {
 		fieldPanel.addBlocks(Arrays.asList(blocks));
-		repaint();
 	}
 
 	/**
@@ -136,7 +134,6 @@ public class GUI extends JFrame implements KeyListener {
 	 */
 	public void clearBlocks(List<Block> blocks) {
 		fieldPanel.removeBlocks(blocks);
-		repaint();
 	}
 
 	/**
@@ -146,7 +143,13 @@ public class GUI extends JFrame implements KeyListener {
 	 */
 	public void clearBlocks(Block[] blocks) {
 		fieldPanel.removeBlocks(Arrays.asList(blocks));
-		repaint();
+	}
+
+	/**
+	 * Clears all blocks.
+	 */
+	public void clearAllBlocks() {
+		fieldPanel.removeAllBlocks();
 	}
 
 	/**
@@ -211,6 +214,8 @@ public class GUI extends JFrame implements KeyListener {
 					actionHandler.drop();
 					break;
 			}
+		} catch (RuntimeException ex) {
+			ex.printStackTrace();
 		} catch (Exception ex) {
 			System.err.println(ex);
 			Toolkit.getDefaultToolkit().beep();

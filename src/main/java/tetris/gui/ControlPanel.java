@@ -3,6 +3,9 @@ package tetris.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.net.URL;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,6 +40,11 @@ public class ControlPanel extends JPanel {
 	private final JLabel statusLabel;
 
 	/**
+	 * The sound clip.
+	 */
+	private Clip soundClip;
+
+	/**
 	 * Constructs a control panel using the specified graphical user interface.
 	 */
 	public ControlPanel() {
@@ -69,37 +77,46 @@ public class ControlPanel extends JPanel {
 		highScoreLabel = new JLabel(" ");
 		highScoreLabel.setFont(valueFont);
 		labelPanel.add(highScoreLabel);
+		this.add(Box.createVerticalStrut(10), BorderLayout.CENTER);
 
 		// add status line
-		this.add(Box.createVerticalStrut(10), BorderLayout.CENTER);
 		statusLabel = new JLabel(" ");
 		statusLabel.setForeground(Color.GRAY);
 		this.add(statusLabel, BorderLayout.SOUTH);
+
+		// open sound clip
+		try {
+			URL url = new URL("http://sws.bfh.ch/fischli/tetris.wav");
+			soundClip = AudioSystem.getClip();
+			soundClip.open(AudioSystem.getAudioInputStream(url));
+		} catch (Exception ex) {
+			System.err.println("Could not open sound clip");
+		}
 	}
 
 	/**
-	 * Sets the level of the game.
+	 * Sets the level of the game to be displayed.
 	 */
 	public void setLevel(int level) {
 		levelLabel.setText(String.valueOf(level));
 	}
 
 	/**
-	 * Sets the score of the game.
+	 * Sets the score of the game to be displayed.
 	 */
 	public void setScore(int score) {
 		scoreLabel.setText(String.valueOf(score));
 	}
 
 	/**
-	 * Sets the high score of the game.
+	 * Sets the high score of the game to be displayed.
 	 */
 	public void setHighScore(int highScore) {
 		highScoreLabel.setText(String.valueOf(highScore));
 	}
 
 	/**
-	 * Sets the status of the game.
+	 * Sets the status of the game to be displayed.
 	 */
 	public void setStatus(Status status) {
 		switch (status) {
@@ -108,12 +125,16 @@ public class ControlPanel extends JPanel {
 				break;
 			case RUNNING:
 				statusLabel.setText(" ");
+				soundClip.loop(Clip.LOOP_CONTINUOUSLY);
 				break;
 			case PAUSED:
 				statusLabel.setText("Game paused");
+				soundClip.stop();
 				break;
 			case OVER:
 				statusLabel.setText("Game over");
+				soundClip.stop();
+				soundClip.setFramePosition(0);
 		}
 	}
 }

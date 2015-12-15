@@ -15,10 +15,8 @@ public class Game {
     private Figure currentFig;
     private Field field;
     private Scoring scoring;
-    private Timer t = new Timer();
     private Status status = Status.READY;
-    private FigureController figureController = new FigureController();
-    private GameController gameController = new GameController();
+    private FigureController figureController;
 
     public Game(GUI gui, int width, int height) {
         this.gui = gui;
@@ -27,54 +25,48 @@ public class Game {
 
         updateScore();
 
-        this.gui.setActionHandler(figureController);
+        GameController gameController = new GameController();
         this.gui.setStatusHandler(gameController);
         this.gui.setStatus(status);
 
         gui.setVisible(true);
-
-
-        try {
-            currentFig = field.getNewFigure();
-        } catch (GameOverException e) {
-            e.printStackTrace();
-        }
-        gui.drawBlocks(currentFig.getBlocks());
-
     }
 
     private void figureLanded() {
         try {
             currentFig = field.depositFigure(currentFig);
+            field.removeFullRows();
+            scoring.update(field.getRowsRemoved());
         } catch (GameOverException e) {
             System.out.println("G A M E   O V E R");
             System.out.println("Score: " + scoring.getScore() + " Level: " + scoring.getLevel() + " Highscore: " + scoring.getHighScore());
 
             status = Status.OVER;
             gui.setStatus(status);
-            gui.clearBlocks(currentFig.getBlocks());
-            gui.clearBlocks(field.getBlocks());
-            field.clear();
         }
 
-        gui.clearBlocks(currentFig.getBlocks());
-        gui.clearBlocks(field.removeFullRows());
+        updateGui();
 
-        gui.drawBlocks(field.getBlocks());
-        gui.drawBlocks(currentFig.getBlocks());
-
-        updateScore();
     }
 
     private void updateScore() {
-        scoring.update(field.getRowsRemoved());
+
 
         gui.setLevel(scoring.getLevel());
         gui.setScore(scoring.getScore());
         gui.setHighScore(scoring.getHighScore());
     }
 
-    public class FigureController implements ActionHandler {
+    private void updateGui() {
+        updateScore();
+
+        gui.clearAllBlocks();
+        gui.drawBlocks(currentFig.getBlocks());
+        gui.drawBlocks(field.getBlocks());
+        gui.repaint();
+    }
+
+    public class FigureController extends Thread implements ActionHandler {
         @Override
         public void moveLeft() {
             perform(f -> f.translate(-1, 0), f -> f.translate(1, 0));
@@ -119,37 +111,69 @@ public class Game {
         }
 
         public void perform(Movement M, Movement N) throws CollisionException {
-            M.make(currentFig);
+            if (status == Status.RUNNING) {
+                M.make(currentFig);
 
-            if (field.isColliding(currentFig)) {
-                N.make(currentFig);
-                throw new CollisionException();
+                if (field.isColliding(currentFig)) {
+                    N.make(currentFig);
+                    throw new CollisionException();
+                }
+                updateGui();
             }
+        }
 
-            gui.repaint();
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                if (status == Status.RUNNING) {
+                    try {
+                        Thread.sleep(1500);
+                        try {
+                            moveDown();
+                        } catch (Exception e) {
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 
     public class GameController implements StatusHandler {
         @Override
         public void changeStatus() throws Exception {
+            System.out.println("i am " + status);
             switch (status) {
+                case OVER:
+                    currentFig = null;
+                    field.clear();
+
                 case READY:
+                    if (currentFig == null) {
+                        try {
+                            currentFig = field.getNewFigure();
+                        } catch (GameOverException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    figureController = new FigureController();
+                    gui.setActionHandler(figureController);
+                    figureController.start();
+                    updateGui();
+
                     status = Status.RUNNING;
                     break;
                 case RUNNING:
-                    t = null;
                     status = Status.PAUSED;
                     break;
-                case OVER:
-                    status = Status.READY;
-                    break;
                 case PAUSED:
+
                     status = Status.RUNNING;
                     break;
             }
+            System.out.println("change to " + status);
             gui.setStatus(status);
-            System.out.println(status);
         }
     }
 }
